@@ -1,4 +1,4 @@
-# 2143-Object Oriented Programming
+# 4663-Cryptography
 
 ### Roster
 ![](https://d3vv6lp55qjaqc.cloudfront.net/items/220B0V0H3c041K2p251Z/google-sheets-16.png?X-CloudApp-Visitor-Id=1094421) [Class Roster](https://docs.google.com/spreadsheets/d/1TFIw2c_JoQOwAqlhhjlAONnBHV6OjwzfOAlTLQpA1xU/edit?usp=sharing)
@@ -17,28 +17,11 @@
 
 ## Course Topics
 
-- Abstraction
-- OOP Design
-- Classes & Methods
-- Encapsulation
-- Polymorphism
-- Overloading
-- Abstract Classes
-- Inheritence and Substitution
-- Introduction to UML
-- UML Relationships 
-- Subclasses and Subtypes
-- Static and Dynamic Behavior
+TBD
 
 ## Grading
 
-| Categories                                                   | Portion of Course | Letter Grade | Grade Range |
-| :----------------------------------------------------------- | :---------------: | :----------: | :---------: |
-| Exams (3)<sup>**1**</sup>                                    |        40%        |      A       |   89-100    |
-| Programs (3-5)<sup>**2**</sup><sup>**3**</sup> & Assignments |        30%        |      B       |    79-88    |
-| Final<sup>**4**</sup>                                        |        20%        |      C       |    69-78    |
-| Github Portfolio                                             |        10%        |      D       |    59-68    |
-|                                                              |                   |      F       |  below 59   |
+TBD                                                  
 
 
 >**1**. Lowest exam grade can be replaced by Final Exam grade if deemed appropriate by instructor. This is for students who attend class and participate.
