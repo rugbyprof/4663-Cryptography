@@ -22,7 +22,7 @@ Now do the same for [ciphertext_2.txt](ciphertext_2.txt) and substitue again bas
 
 - Make sure you have an "assignments" folder on your Github repo.
 - Create a folder called `A03` and place all files (source code or text) that were used in the decrypting of these messages.
-- If you used pencil an paper, scan or take pics and include them in your folder.
+- You should have some written work included in your folder as well. Scan or take (good n straight) photos of your work. Images should be displayed in your README.md file as part of your write up.
 - Follow the guidelines of [this](../../Resources/02-Readmees/README.md) to help you write a README.md for your assignment. (10% of grade).
 - Create two files: `decrypted_1.txt` and `decrypted_2.txt` with your decrypted answers in them.
 - The README.md is for you to list any sources you used, explain issues, post your pictures if your uploaded any, etc.
