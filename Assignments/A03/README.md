@@ -16,7 +16,7 @@ Run a frequency analysis on the file [ciphertext_1.txt](ciphertext_1.txt) and su
 
 ### Second (medium)
 
-Now do the same for [ciphertext_2.txt](ciphertext_2.txt) and substitue again based on frequency. This one doesn't line up perfectly, but close enough to not make it too hard. This one is not as common as the first. But it is part of an extremely famous book. And part of a famous movie rant. So, good luck.
+Now do the same for [ciphertext_2.txt](ciphertext_2.txt) and substitute again based on frequency. This one doesn't line up perfectly, but close enough to not make it too hard. This one is not as common as the first. But it is part of an extremely famous book. And part of a famous movie rant. So, good luck.
 
 ### Deliverables
 
@@ -26,3 +26,7 @@ Now do the same for [ciphertext_2.txt](ciphertext_2.txt) and substitue again bas
 - Follow the guidelines of [this](../../Resources/02-Readmees/README.md) to help you write a README.md for your assignment. (10% of grade).
 - Create two files: `decrypted_1.txt` and `decrypted_2.txt` with your decrypted answers in them.
 - The README.md is for you to list any sources you used, explain issues, post your pictures if your uploaded any, etc.
+
+>NOTE: 
+>   It will be really easy to find online tools to decrypt almost all of the ciphers we are going to implement early in the semester. I would encourage you to use them as a "work checking" tool, and not a "do the work for me" tool. 
+>   Your grade will be highly dependent on the work you portray in your README file. 
