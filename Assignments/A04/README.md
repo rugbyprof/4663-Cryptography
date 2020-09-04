@@ -123,20 +123,12 @@ To decrypt the message sent using our `ADFGX` cipher, we "simply" (LOL) reverse 
 
 - For keyword: Hijack
   - We know that the keyword had a length of 6. The number of letters in the message was 28.
-  - If we divide `28 / 6` we get `4.666`. This means the *columnar transposition matrix* would have 5 rows for at least "some" of the columns.
-    - `4rows * 6cols = 24` not enough to complete the `28` letters.
-    - `5rows * 6cols = 30` too many for the the `28` letters. 
-    - So, we know its between `4` and `5` rows (aka: not a perfectly filled matrix).
-    - This means some columns will be 4 rows, and some 5 rows, where the ones with 5 rows are the first X columns in the original keyword before alphabetizing. 
+  - Based on the keyword length, and message size, were sure that the *columnar transposition matrix* and would have 5 rows for at least "some" of the columns.
 
 
 - For keyword: Quark
   - We know that the keyword had a length of 5. The number of letters in the message was 28.
-  - If we divide `28 / 5` we get `5.6`. This means the *columnar transposition matrix* would have 6 rows for at least "some" of the columns.
-    - `5rows * 5cols = 25` not enough to complete the `28` letters.
-    - `6rows * 5cols = 30` too many for the the `28` letters. 
-    - So, we know its between `5` and `6` rows (aka: not a perfectly filled matrix).
-    - This means some columns will be 5 rows, and some 6 rows, where the ones with 6 rows are the first X columns in the original keyword before alphabetizing. 
+  - Based on the keyword length, and message size, were sure that the *columnar transposition matrix* and would have 6 rows for at least "some" of the columns.
 
 
 - As long as we know keyword<sub>**2**</sub>, we can deduce what the original matrix should look like (😂 no ... seriously).
@@ -163,6 +155,141 @@ A K Q R U
 6 5 6 5 6
 ```
 
+### Helper Code
+
+- I know helper code isn't always helpful! It takes time to figure out what another brain is doing. 
+- So I tried to comment the class with decent comments. 
+- Usage of the [python class](polybius.py) you can see below.
+- This snippet, builds the initial lookup table needed to do the first round of encoding.  
+
+```python
+# Create an instance of the class using a super long keyword
+# with duplicate letters. The class removes those duplicates
+# and then builds the matrix. 
+B = AdfgxLookup('helloworldhowareyou')
+
+# build my lookup table 
+lookup = B.build_polybius_lookup()
+
+# print out my adfgx lookup table
+pp.pprint(lookup)
+
+# print out the actual matrix I 
+# know I'm not insane!
+B.sanity_check()
+```
+
+The **sanity_check** is to print out the created substitution matrix. I need to "see" it working. But it's only to visualize the matrix.
+
+```txt
+  A D F G X 
+A h e l o w 
+D r d a y u 
+F b c f g i 
+G k m n p q 
+X s t v x z 
+```
+
+The lookup table is what you use to start the encryption process. 
+
+```python
+{'a': 'DF',
+ 'b': 'FA',
+ 'c': 'FD',
+ 'd': 'DD',
+ 'e': 'AD',
+ 'f': 'FF',
+ 'g': 'FG',
+ 'h': 'AA',
+ 'i': 'FX',
+ 'k': 'GA',
+ 'l': 'AF',
+ 'm': 'GD',
+ 'n': 'GF',
+ 'o': 'AG',
+ 'p': 'GG',
+ 'q': 'GX',
+ 'r': 'DA',
+ 's': 'XA',
+ 't': 'XD',
+ 'u': 'DX',
+ 'v': 'XF',
+ 'w': 'AX',
+ 'x': 'XG',
+ 'y': 'DG',
+ 'z': 'XX'}
+ ```
+Using the lookup table from above: 
+
+```python
+message = "theattackisatdawn"
+for x in message:
+    print(lookup[x],end=' ')
+```
+Results in:
+
+```
+XD AA AD DF XD XD DF FD GA FX XA DF XD DD DF AX GF
+```
+
+### Requirements
+
+- You are responsible for everything after the first round of encoding. 
+- You can use ALL the code I put in this folder ... or NONE its up to you.
+- Ultimately write a program (in language of choice) that implements the steps described in this document to implement the `ADFGX` cipher.
+- Your program should include functions that implement various components of the cipher to encrypt and decrypt.
+- Key components are building the *columnar transposition matrix*:
+```
+H I J A C K       Q U A R K 
+- - - - - -       - - - - - 
+D F F F A A       D F F F A 
+D G G F G A       A D G G F
+D A G F D A       G A D A G
+A D F X D D       F D A A D
+G X A G           F X D D G
+                  X A G
+```
+- As well as **fractionating** it (cool word):
+```
+A C H I J K      A K Q R U
+- - - - - -      - - - - - 
+F A D F F A      F A D F F
+F G D G G A      G F A G D
+F D D A G A      D G G A A
+X D A D F D      A D F A D
+G   G X A        D G F D X 
+                 G   X   A
+```
+- Having the ability to traversing the  **fractionated** matrix in a column-wise fashion to build the actual encrypted message.
+- FINALLY: reverse it all to decipher a message.
+
+### Running your program
+
+- Your program should be invoked like the following:
+
+```
+                     1              2        3            4
+python adfgx.py input_file_name keyword1 keyword2 [encrypt,decrypt] 
+```
+
+1. The file to be encrypted or decrypted
+2. keyword to build adfgx matrix 
+3. keyword used with transposition matrix and fractionating the message
+4. whether to "encrypt" or "decrypt" the message.
+
+- To test your program we will run it in class and attempt to encrypt and then decrypt a message. 
+- The big test is if you can decrypt a file not encrypted by your own program.
+
+### Deliverables
+
+- Make sure you have an "assignments" folder on your Github repo.
+- Create a folder called `A04` and place all files (source code or text) that were used in the decrypting of these messages.
+- Follow the guidelines of [this](../../Resources/02-Readmees/README.md) to help you write a README.md for your assignment. (10% of grade).
+- Include any and all files used to complete this project. 
+- Your main program should be named `adfgx.py`
+- The README.md is for you to assist anyone with necessary libraries and or the running of your program. 
+- Any sources used should be in the description as well as a link to every file. 
+- Examples of input and output would be helpful as well.
 
 
 <sup>Source: http://practicalcryptography.com/ciphers/adfgx-cipher/</sup>

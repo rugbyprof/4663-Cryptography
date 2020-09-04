@@ -136,6 +136,9 @@ class AdfgxLookup:
                     F c d f g h 
                     G i k l m n 
                     X o q v w x 
+
+            This is not what you would use to encrypt!! Its only a sanity check
+            meaning that it visualizes the lookup table just to see proof it's correct.
         """
 
         if not self.key:
