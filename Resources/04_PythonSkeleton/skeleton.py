@@ -31,15 +31,18 @@ def mykwargs(argv):
             args.append(arg)
     return args,kargs
 
-def main(**kwargs):
+def main(args,**kwargs):
     """ Example main function. Of course params would change as necessary.
     Params:
         kwargs <dict> : keyword params
 
     """
+    pprint.pprint(args)
     pprint.pprint(kwargs)
 
-def usage():
+def usage(message=None):
+    if message:
+        print(message)
     print("Usage: python skeleton.py [key1=string] [key2=int] [key3=int] [keyX=sometype]")
     print("Example:\n\t python skeleton.py arg1 arg2 var1='Param 1' path=./some_path a=25 b=50\n")
     sys.exit()
@@ -59,9 +62,15 @@ if __name__=='__main__':
     # get processed command line args
     args,kwargs = mykwargs(argv)
 
+    # you could also check to make sure certain keyword params exist at this point.
+    # e.g. 
+    # if 'encryption_key' not in kwargs:
+    #   usage("Missing param: 'encryption_key'. Cannot continue!")
+        
+
     # command line params are processed
 
     # do more param processing if necessary
 
     # or send all to main
-    main(**kwargs)
+    main(args,**kwargs)
