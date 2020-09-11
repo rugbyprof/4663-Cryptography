@@ -1,5 +1,5 @@
 ## Assignment 4 - ADFGX Implementation
-#### Due: 09-11-2020 (Friday @ 5:00 p.m.)
+#### Due: 09-14-2020 (Monday @ 5:00 p.m.)
 
 # Almost Done ... 
 
@@ -120,7 +120,7 @@ G   G X A        D G F D X
                  G   X   A
 ```
 
-- Read the final ciphertext off in columns to get the message that will be sent: 
+- Read the final ciphertext off in columns to get the message that will be sent (I kept the spaces in for readability):
 
 ```
 Hijack: FF FX GA GD DD DD AG FG AD XF GG FA AA AD 
@@ -188,8 +188,6 @@ python adfgx.py input_file_name keyword1 keyword2 [encrypt,decrypt]
 ```
 python adfgx.py input=input_file_name key1=keyword1 key2=keyword2 op=[encrypt,decrypt] 
 ```
-
-- Each key=value pair should be obvious what they are.
 
 **Testing:**
 
