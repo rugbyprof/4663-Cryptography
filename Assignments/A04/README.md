@@ -72,7 +72,7 @@ Ok, we know how to build our **polybius** square and use it to encode a word. Bu
 
 - We have already chosen keyword<sub>**1**</sub> to build the square with.
 - We built the square.
-- We can encrypt a message with said polybius square (essentially doubling the text length).
+- We can start the encryption of a message with said polybius square (essentially doubling the text length).
 
 For the next steps, let us assume we are going to encrypt a single word: **discombobulate** (meaning: to confuse someone). This word gets encrypted to: 
 
@@ -82,8 +82,18 @@ DF FF AA DG GF GA DA GF DA AD FX DD GX AG
 
 - Choose yet another keyword (that does not have duplicate letters) (we'll call this keyword<sub>**2**</sub>).
 - Write your encoded message below keyword<sub>**2**</sub> as if each letter of keyword<sub>**2**</sub> is a column header. 
-- Lets say our keyword<sub>**2**</sub> is: **hijack** (I will capitalize for readability).
+- Add the message to the matrix in a row-wise fashion, meaning the keyword `BUG` would have a message like `DFFDGAFXXA` loaded like the following:
+ 
+```
+      B U G
+      - - -
+      D F F
+      D G A
+      F X X
+      A
+```
 
+- Using the message encrypted from discombobulate, here are two different length keyword<sub>**2**</sub>'s loaded.
 ```
 6 letter key      5 letter key
 
@@ -97,7 +107,7 @@ G X A G           F X D D G
                   X A G
 ```
 
-Perform a columnar transposition. Sort the code word alphabetically, moving the columns as you go. Note that the letter pairs that make up each letter get split apart during this step, this is called **fractionating**.
+- The next step is to perform a columnar transposition. Sort the code word alphabetically, moving the columns as you go. Note that the letter pairs that make up each letter get split apart during this step, this is called **fractionating**.
 
 ```
 A C H I J K      A K Q R U
@@ -110,7 +120,7 @@ G   G X A        D G F D X
                  G   X   A
 ```
 
-Read the final ciphertext off in columns to get the message that will be sent: 
+- Read the final ciphertext off in columns to get the message that will be sent: 
 
 ```
 Hijack: FF FX GA GD DD DD AG FG AD XF GG FA AA AD 
@@ -119,163 +129,69 @@ Quark:  FD GA DG AF GD GD AG FF XF GA AD FD AD XA
 
 ### Decrypting
 
-To decrypt the message sent using our `ADFGX` cipher, we "simply" (LOL) reverse the steps. Of course the receiver needs keyword<sub>**1**</sub> and keyword<sub>**2**</sub> so they can build the modified Polybius square. But also piece together the message that they received. 
+To decrypt the message sent using our `ADFGX` cipher, we "simply" (LOL) reverse the steps. Of course the receiver needs keyword<sub>**1**</sub> and keyword<sub>**2**</sub> so they can build the modified Polybius square. But also piece back together the message that they received by reversing the `fractionating` process by:
 
-- For keyword: Hijack
-  - We know that the keyword had a length of 6. The number of letters in the message was 28.
-  - Based on the keyword length, and message size, were sure that the *columnar transposition matrix* and would have 5 rows for at least "some" of the columns.
+  - Calculating the number of rows in the matrix based on length of keyword<sub>**2**</sub>.
+  - Figuring out the number of short columns.
+  - Assigning short columns to proper letters.
+  - Alphabetizing the keyword<sub>**2**</sub>.
+  - Read message back out from 
 
-
-- For keyword: Quark
-  - We know that the keyword had a length of 5. The number of letters in the message was 28.
-  - Based on the keyword length, and message size, were sure that the *columnar transposition matrix* and would have 6 rows for at least "some" of the columns.
-
-
-- As long as we know keyword<sub>**2**</sub>, we can deduce what the original matrix should look like (😂 no ... seriously).
-
-- 6 * 5 = 30
-- 30 - 28 = 2
-- So, 2 of the 6 columns will be short.
-- Which 2? C and K because they are the last 2 letters in Hijack
-
-```
-A C H I J K
-- - - - - - 
-5 4 5 5 5 4
-```
-
-- 5 cols * 6 rows = 30
-- 30 - 28 = 2
-- So, 2 of the 5 columns will be short.
-- Which 2? R and K because they are the last 2 letters in Quark
-
-```
-A K Q R U
-- - - - - 
-6 5 6 5 6
-```
 
 ### Helper Code
 
 - I know helper code isn't always helpful! It takes time to figure out what another brain is doing. 
-- So I tried to comment the class with decent comments. 
-- Usage of the [python class](polybius.py) you can see below.
-- This snippet, builds the initial lookup table needed to do the first round of encoding.  
+- So I tried to comment each file with decent comments. Probably too many for some of you.
+- Files: 
+  
+|   #   | Name                             | Description                                                                                           |
+| :---: | :------------------------------- | :---------------------------------------------------------------------------------------------------- |
+|   1   | [polybius.py](polybius.py)       | This is a class that builds a polybius lookup table for part 1 of encryption.                         |
+|   2   | [fractionate.py](fractionate.py) | Contains function or two that use keyword2 to load another matrix and perform columnar transposition. |
 
-```python
-# Create an instance of the class using a super long keyword
-# with duplicate letters. The class removes those duplicates
-# and then builds the matrix. 
-B = AdfgxLookup('helloworldhowareyou')
-
-# build my lookup table 
-lookup = B.build_polybius_lookup()
-
-# print out my adfgx lookup table
-pp.pprint(lookup)
-
-# print out the actual matrix I 
-# know I'm not insane!
-B.sanity_check()
-```
-
-The **sanity_check** is to print out the created substitution matrix. I need to "see" it working. But it's only to visualize the matrix.
-
-```txt
-  A D F G X 
-A h e l o w 
-D r d a y u 
-F b c f g i 
-G k m n p q 
-X s t v x z 
-```
-
-The lookup table is what you use to start the encryption process. 
-
-```python
-{'a': 'DF',
- 'b': 'FA',
- 'c': 'FD',
- 'd': 'DD',
- 'e': 'AD',
- 'f': 'FF',
- 'g': 'FG',
- 'h': 'AA',
- 'i': 'FX',
- 'k': 'GA',
- 'l': 'AF',
- 'm': 'GD',
- 'n': 'GF',
- 'o': 'AG',
- 'p': 'GG',
- 'q': 'GX',
- 'r': 'DA',
- 's': 'XA',
- 't': 'XD',
- 'u': 'DX',
- 'v': 'XF',
- 'w': 'AX',
- 'x': 'XG',
- 'y': 'DG',
- 'z': 'XX'}
- ```
-Using the lookup table from above: 
-
-```python
-message = "theattackisatdawn"
-for x in message:
-    print(lookup[x],end=' ')
-```
-Results in:
-
-```
-XD AA AD DF XD XD DF FD GA FX XA DF XD DD DF AX GF
-```
 
 ### Requirements
 
-- You are responsible for everything after the first round of encoding. 
+- You are responsible for encrypting a message of size `1 - n` with almost no cap on `n`. We won't go crazy, but assume you may read a file of size many `K`.
 - You can use ALL the code I put in this folder ... or NONE its up to you.
 - Ultimately write a program (in language of choice) that implements the steps described in this document to implement the `ADFGX` cipher.
-- Your program should include functions that implement various components of the cipher to encrypt and decrypt.
-- Key components are building the *columnar transposition matrix*:
-```
-H I J A C K       Q U A R K 
-- - - - - -       - - - - - 
-D F F F A A       D F F F A 
-D G G F G A       A D G G F
-D A G F D A       G A D A G
-A D F X D D       F D A A D
-G X A G           F X D D G
-                  X A G
-```
-- As well as **fractionating** it (cool word):
-```
-A C H I J K      A K Q R U
-- - - - - -      - - - - - 
-F A D F F A      F A D F F
-F G D G G A      G F A G D
-F D D A G A      D G G A A
-X D A D F D      A D F A D
-G   G X A        D G F D X 
-                 G   X   A
-```
-- Having the ability to traversing the  **fractionated** matrix in a column-wise fashion to build the actual encrypted message.
-- FINALLY: reverse it all to decipher a message.
+- Your program should include functions that implement various components of the cipher to encrypt and decrypt. Basically, organize your code into functions and / or classes.
+- Any characters that are not A-Z can be ignored and filtered out. But they need to be handled and should not break your program.
+- Use of external libraries is OK as long as you document thier use and as long as you still implement the actual algorithm. (e.g. a library to clean text is ok).
+- Key components are:
+  - ENCRYPTION (all done for you in pieces):
+    - Reading parameters from command line to set up your program.
+    - Building the polybius square using keyword<sub>1</sub> (really the dictionary lookup is what it is).
+    - Building the *columnar transposition matrix* and fractionating the message using keyword<sub>2</sub>.
+    - Pulling the message out of this second matrix and writing it to a file. 
+  - DECRYPTION
+    - All on you! All the programming tools you need are in this repo.
+
 
 ### Running your program
 
-- Your program should be invoked like the following:
-
+- This file: [skeleton.py](../../Resources/04_PythonSkeleton/skeleton.py) has helper code to deal with command line parameters.
+- Your program should be invoked in one of 2 ways:
+  
+**Positional Parameters:**
 ```
                      1              2        3            4
 python adfgx.py input_file_name keyword1 keyword2 [encrypt,decrypt] 
 ```
 
 1. The file to be encrypted or decrypted
-2. keyword to build adfgx matrix 
+2. keyword to build ADFGX matrix (polybius square)
 3. keyword used with transposition matrix and fractionating the message
 4. whether to "encrypt" or "decrypt" the message.
+
+**Keyword Parameters:**
+```
+python adfgx.py input=input_file_name key1=keyword1 key2=keyword2 op=[encrypt,decrypt] 
+```
+
+- Each key=value pair should be obvious what they are.
+
+**Testing:**
 
 - To test your program we will run it in class and attempt to encrypt and then decrypt a message. 
 - The big test is if you can decrypt a file not encrypted by your own program.
@@ -287,7 +203,7 @@ python adfgx.py input_file_name keyword1 keyword2 [encrypt,decrypt]
 - Follow the guidelines of [this](../../Resources/02-Readmees/README.md) to help you write a README.md for your assignment. (10% of grade).
 - Include any and all files used to complete this project. 
 - Your main program should be named `adfgx.py`
-- The README.md is for you to assist anyone with necessary libraries and or the running of your program. 
+- The `README.md` is for you to assist anyone with necessary libraries and or the running of your program. 
 - Any sources used should be in the description as well as a link to every file. 
 - Examples of input and output would be helpful as well.
 

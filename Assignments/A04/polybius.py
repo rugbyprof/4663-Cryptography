@@ -1,3 +1,15 @@
+"""
+    This file implements a class that creates a Adfgx lookup table using a keyword
+    to build a polybuis square of format: 
+                      A D F G X 
+                    A s u p e r 
+                    D b a t z y 
+                    F c d f g h 
+                    G i k l m n 
+                    X o q v w x 
+
+    And then a dictionary lookup 
+"""
 import sys
 
 class AdfgxLookup:
@@ -166,3 +178,41 @@ class AdfgxLookup:
             col = 0
             sys.stdout.write("\n")
 
+
+if __name__=='__main__':
+    #     A D F G X
+    # A | p h q g m 
+    # D | e a y n o 
+    # F | f d x k r
+    # G | c v s z w 
+    # X | b u t i l
+
+    # init and input my keyword
+    A = AdfgxLookup('superflazkitbond')
+
+    # build my lookup table 
+    lookup = A.build_polybius_lookup()
+
+    # print out my adfgx lookup table
+    pp.pprint(lookup)
+
+    # print out the actual matrix so I 
+    # know I'm not insane!
+    A.sanity_check()
+
+
+    B = AdfgxLookup('theattackisatdawn')
+
+    # build my lookup table 
+    lookup = B.build_polybius_lookup()
+
+    # print out my adfgx lookup table
+    pp.pprint(lookup)
+
+    # print out the actual matrix I 
+    # know I'm not insane!
+    B.sanity_check()
+
+
+    for c in 'theattackisatdawn':
+        print(lookup[c],end=' ')
