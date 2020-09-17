@@ -1,7 +1,9 @@
 import sys
-import sys
 import os
 import pprint
+
+from mymodule.CmdParams import cmd_params
+from mymodule.Usage import usage
 
 ALPHABET = [chr(x+97) for x in range(26)]
 
@@ -57,45 +59,6 @@ def vigenere_cipher_decrypt(**kwargs):
     with open(output_file,'w') as f:
         f.write(decrypted)
 
-
-def mykwargs(argv):
-    '''
-    Processes argv list into plain args (list) and kwargs (dict).
-    Just easier than using a library like argparse for small things.
-    Example:
-        python file.py arg1 arg2 arg3=val1 arg4=val2 -arg5 -arg6 --arg7
-        Would create:
-            args[arg1, arg2, -arg5, -arg6, --arg7]
-            kargs{arg3 : val1, arg4 : val2}
-
-        Params with dashes (flags) can now be processed seperately
-    Shortfalls:
-        spaces between k=v would result in bad params
-        Flags aren't handled at all. Maybe in the future but this function
-            is meant to be simple.
-    Returns:
-        tuple  (args,kargs)
-    '''
-    args = []
-    kargs = {}
-
-    for arg in argv:
-        if '=' in arg:
-            key,val = arg.split('=')
-            kargs[key] = val
-        else:
-            args.append(arg)
-    return args,kargs
-
-
-def usage(message=None):
-    if message:
-        print(message)
-    name = os.path.basename(__file__)
-    print(f"Usage: python {name} [input=string filename] [output=string filename] [key=string] [op=encrypt/decrypt]")
-    print(f"Example:\n\t python {name} input=input_file.txt output=output_file.txt key=machine op=encrypt\n")
-    sys.exit()
-
 if __name__=='__main__':
     """
     Change the required params value below accordingly.
@@ -104,7 +67,7 @@ if __name__=='__main__':
     required_params = 4 # adjust accordingly
 
     # get processed command line arguments 
-    _,params = mykwargs(sys.argv[1:])
+    _,params = cmd_params(sys.argv[1:])
 
     # print usage if not called correctly
     if len(params) < required_params:

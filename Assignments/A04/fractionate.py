@@ -44,6 +44,22 @@ def print_message(matrix,key2word):
             i += 1
     print("")
 
+def get_message(matrix,key2word):
+    """ Prints the message in a left to right fashion, but reads it from
+        the matrix by using fractionated matrix. If you think about it
+        we don't even need to swap the columns around, if we alphabatize
+        the key2word, then use the alphabetized letters to access the 
+        matrix. 
+    """
+    message = ''
+    i = 1
+    for k in sorted(key2word):
+        for d in matrix[k]:
+
+            message += d
+            i += 1
+    return message
+
 
 
 # key2 = "bugsy".upper()
@@ -55,6 +71,7 @@ def print_message(matrix,key2word):
 
 key2 = 'quark'.upper()
 message = "XD AA AD DF XD XD DF FD GA FX XA DF XD DD DF AX GF"
+print(message)
 
 message = message.replace(' ','')   # get rid of spaces
 
@@ -119,3 +136,41 @@ print_message(sorted_matrix,key2)
 
 # print message with original matrix to show we get the same output!
 print_message(matrix,key2)
+
+key2_sorted = sorted(key2)
+
+
+for i in range(len(key2_sorted)):
+    print(i,end=" ")
+print("")
+
+for k in key2:
+    print(k,end=" ")
+print("")
+
+for k in key2_sorted:
+    print(k,end=" ")
+print("")
+
+for k in key2_sorted:
+    print(key2.find(k),end=" ")
+
+print("")
+
+encrypted = get_message(matrix,key2)
+for i in range(len(encrypted)):
+    if i < 10:
+        e = "  "
+    else:
+        e = " "
+    print(i,end=e)
+print("")
+
+for i in range(len(encrypted)):
+    print(encrypted[i],end="  ")
+print("")
+
+# print("")
+# for i in range(0,len(encrypted),0+len(key2)):
+#     print(encrypted[i],end="")
+# print("")

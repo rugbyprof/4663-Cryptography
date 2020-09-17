@@ -6,6 +6,8 @@
 - http://practicalcryptography.com/cryptanalysis/text-characterisation/chi-squared-statistic/
 - http://practicalcryptography.com/cryptanalysis/text-characterisation/index-coincidence/
 
+
+
 ### Deliverables
 
 - Create a folder called `A05` in assignments folder and place all files (source code or text) that were used.
