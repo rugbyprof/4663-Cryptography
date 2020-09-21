@@ -132,10 +132,10 @@ print_matrix(sorted_matrix,rows)
 print("")
 
 # Print the message using the sorted unnecessary matrix
-print_message(sorted_matrix,key2)
+#print_message(sorted_matrix,key2)
 
 # print message with original matrix to show we get the same output!
-print_message(matrix,key2)
+#print_message(matrix,key2)
 
 key2_sorted = sorted(key2)
 
