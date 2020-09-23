@@ -1,9 +1,9 @@
-## Assignment 6 - Factoring Primes
+## Assignment 6 - Prime Factors
 #### Due: 10-08-2020 (Thursday @ 3:30 p.m.)
 
 ### Overview
 
-Your job is to factor a prime number (if possible). Given a somewhat large number, determine if it is prime or if it can be factored. If it can be factored print out the factors.
+Your job is to find the prime factors numbers (if possible). Given a somewhat large number, determine if it is prime or if it can be factored. If it can be factored print out the factors.
 
 ### Requirements
 
