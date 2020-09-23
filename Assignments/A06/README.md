@@ -3,7 +3,7 @@
 
 ### Overview
 
-Your job is to find the prime factors numbers (if possible). Given a somewhat large number, determine if it is prime or if it can be factored. If it can be factored print out the factors.
+Given a somewhat large number, determine if it is prime or if it can be factored. If it can be factored print out the prime factors.
 
 ### Requirements
 
@@ -17,9 +17,10 @@ Example Output
 ```
 Name: Joe Sue
 
-Number 1: 231697363 - Factors: 419, 607, 911
-
+Number 1: 231697363 - Factors: 419 * 607 * 911
 Number 2: 709 - Prime
+Number 3: 246641520131 - ???
+Number 4: 72490732415291 - Factors: 249089 * 147503 * 1973
 ```
 
 ### Deliverables
