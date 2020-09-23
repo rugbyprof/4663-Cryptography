@@ -3,7 +3,7 @@
 
 ### Overview
 
-Your job is to factor a prime number (if possible). Given a somewhat large number, determine if it is prime 
+Your job is to find the prime factors of a number (if possible), or state that it is prime and cannot be factored.
 
 ### Requirements
 
@@ -16,5 +16,3 @@ Your job is to factor a prime number (if possible). Given a somewhat large numbe
 - The `README.md` is for you to assist anyone with necessary libraries and or the running of your program. 
 - Any sources used should be in the description as well as a link to every file. 
 - Examples of input and output would be helpful as well.
-
-
