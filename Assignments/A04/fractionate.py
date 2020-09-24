@@ -118,7 +118,7 @@ print("")
 sorted_matrix = {}
 
 # Rebuild the sorted matrix into a dictionary again
-# Rememnber sorted returns a list of tuples and we 
+# Remember sorted returns a list of tuples and we 
 # need to make another dictionary. This is another 
 # reason NOT to sort the matrix, but simply access
 # it via an alphabetized word.
