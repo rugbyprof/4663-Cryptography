@@ -37,10 +37,12 @@ class frequency():
     def __init__(self):
         self.text = ""
         self.freq = {}
+        self.freq_percent = {}
         self.sort_freq = None
 
         for l in alphabet:
             self.freq[l] = 0
+            self.freq_percent[l] = 0
     
     def typical(self):
         return typical_frequency
@@ -51,6 +53,9 @@ class frequency():
             if l in alphabet:
                 self.freq[l] += 1
 
+        for k in self.freq_percent:
+            self.freq_percent[k] = round(self.freq[k] / len(text),2)
+        
         # https://realpython.com/python-lambda/
         self.sort_freq = sorted(self.freq.items(), key=lambda x: x[1], reverse=True)
 
