@@ -1,5 +1,5 @@
 ## Assignment 6 - Prime Factors
-#### Due: 10-08-2020 (Thursday @ 3:30 p.m.)
+#### Due: 10-15-2020 (Thursday @ 3:30 p.m.)
 
 ### Overview
 

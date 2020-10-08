@@ -1,5 +1,5 @@
 ## Assignment 5 - Vigenere Cracking
-#### Due: 09-29-2020 (Tuesday @ 3:30 p.m.)
+#### Due: 10-15-2020 (Tuesday @ 3:30 p.m.)
 
 <sup>Good Source: http://practicalcryptography.com/cryptanalysis/stochastic-searching/cryptanalysis-vigenere-cipher/</sup>
 
