@@ -14,7 +14,7 @@ Your assignment is to find tests in both categories (plus a third as mentioned b
 
 ### Certification
 
-"A primality certificate or primality proof is a succinct, formal proof that a number is prime."<sup>[[1]](#1)</sup> This is a little beyond what we are wanting to do. Our goal is to find some algorithms that find primes in a "brute force" fashion that inherently guarantee the number found is prime. So to "certify" a number is prime, we are ok with using ***trial division***.  This is the simplest primality test is. It goes something like this: 
+"A primality certificate or primality proof is a succinct, formal proof that a number is prime."<sup>[[1]](#1)</sup> This is a little beyond what we are wanting to do. Our goal is to find some algorithms that find primes in a "brute force" fashion that inherently guarantee the number found is prime. So to "certify" a number is prime, we are ok with using ***trial division***.  This is the simplest primality test there is. It goes something like this: 
 >Given an input number, ***n***, check whether it is evenly divisible by any prime number between ***2*** and ***√n*** (i.e. that the division leaves no remainder). If so, then ***n*** is **composite**. Otherwise, it is ***prime***.
 
 Of course this does not mean we are looking to waste time. We still want to do things efficiently. So we look for other, faster ways of determining primes as well. 
