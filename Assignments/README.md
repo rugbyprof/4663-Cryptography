@@ -7,6 +7,8 @@
  | [A04](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A04) | [ Assignment 4 ](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A04) | [ ADFGX Implementation](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A04) | [09-14-2020 (Monday @ 5:00 p.m.)](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A04) |
  | [A05](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A05) | [ Assignment 5 ](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A05) | [ Vigenere Cracking](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A05) | [10-15-2020 (Tuesday @ 3:30 p.m.)](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A05) |
  | [A06](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A06) | [ Assignment 6 ](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A06) | [ Prime Factors](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A06) | [10-15-2020 (Thursday @ 3:30 p.m.)](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A06) |
+ | [A07](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A07) | [ Assignment 7 ](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A07) | [ Finding Primes](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A07) | [10-20-2020 (Tuesday @ 3:30 p.m.)](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A07) |
+ | [A08](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A08) | [ Assignment 8 ](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A08) | [ Public Key Encryption](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A08) | [11-10-2020 ( Tuesday @ 3:30 p.m.)](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/A08) |
  | [T01](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/T01) | [ Test 1 ](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/T01) | [ Ancient Ciphers and Intro Number Theory](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/T01) | [10-01-2020 (Thursday @ 3:30 p.m.)](https://github.com/rugbyprof/4663-Cryptography/tree/master/Assignments/T01) |
  
     
@@ -20,4 +22,4 @@
 |xx-**T**xx | This is a ***Test***. Usually when on github, it will start out as a study guide, then get accompanied with a solution after the exam. |
 
     
-<sup>Last Updated: 2020-10-08 (Thu @ 15:40)</sup>
+<sup>Last Updated: 2020-11-03 (Tue @ 17:57)</sup>
