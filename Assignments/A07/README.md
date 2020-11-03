@@ -1,4 +1,4 @@
-## Assignment 6 - Finding Primes
+## Assignment 7 - Finding Primes
 #### Due: 10-20-2020 (Tuesday @ 3:30 p.m.)
 
 ### Overview
