@@ -12,12 +12,10 @@ from flask import send_file         # shouldn't need
 import glob                         # glob reads directories
 from crypto_class import Crypto     # import the crypto class
 
-app = Flask(__name__)               # 
-CORS(app)
-
 crypt_helper = Crypto()             # instance of crypto class              
 
-
+app = Flask(__name__)               # set app here so its globale
+CORS(app)
 
 
 """
