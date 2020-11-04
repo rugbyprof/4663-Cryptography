@@ -12,21 +12,21 @@ from flask import send_file         # shouldn't need
 import glob                         # glob reads directories
 from crypto_class import Crypto     # import the crypto class
 
-app = Flask(__name__)
+app = Flask(__name__)               # 
 CORS(app)
 
 crypt_helper = Crypto()             # instance of crypto class              
 
-# HELPER 
 
-def load_public_keys(path):
-    """ This reads a directory (path) for .pem files
-        and returns a list with file names in it. 
-    """
- 
-    key_files = glob.glob(f"{path}/*.pem")
 
-    return key_files
+
+"""
+   ____   ___  _   _ _____ _____ ____  
+  |  _ \ / _ \| | | |_   _| ____/ ___| 
+  | |_) | | | | | | | | | |  _| \___ \ 
+  |  _ <| |_| | |_| | | | | |___ ___) |
+  |_| \_\\___/ \___/  |_| |_____|____/ 
+"""
 
 @app.route("/", methods=["GET"])
 def getRoutes():
@@ -48,26 +48,6 @@ def getRoutes():
     response = response.replace("\n","<br>")
     return "<pre>"+response+"</pre>"
 
-def formatHelp(route):
-    """ formatHelp
-        Description: 
-            Grabs the __doc__ string for the given route (function)
-            if it exists and returns it or it returns "no help provided"
-        Params:
-            route <string> : the function name within this file.
-                e.g. formatHelp(frequency) # notice no quotes 
-    """
-    help = globals().get(str(route)).__doc__
-    if help != None:
-        help = help.split("\n")
-        clean_help = []
-        for i in range(len(help)):
-            help[i] = help[i].rstrip()
-            if len(help[i]) > 0:
-                clean_help.append(help[i])
-    else:
-        clean_help = "No Help Provided."
-    return clean_help
 
 @app.route('/hello/<string:name>/<string:adj>')
 def hello_name(name,adj):
@@ -122,15 +102,55 @@ def public_key(id):
     """ public_key
         Description: gets you the public key
     """
-    # "./keys/01.public.pem"
-    if os.path.isfile(os.path.join('keys',id+'.public.pem')): 
+
+    # os.path.join joins string segments to make a directory path
+    key_path = os.path.join('keys',id+'.public.pem')
+
+    # os.path.isfile returns true if file exists
+    if os.path.isfile(key_path): 
+        # open and read key
         with open(os.path.join('keys',id+'.public.pem')) as f:
             key = f.read() 
-        return handle_response({"public_key":key})
+        
+        return handle_response({"public_key":key},{"id":id})
     
 
+#   _   _ _____ _     ____  _____ ____  
+#  | | | | ____| |   |  _ \| ____|  _ \ 
+#  | |_| |  _| | |   | |_) |  _| | |_) |
+#  |  _  | |___| |___|  __/| |___|  _ < 
+#  |_| |_|_____|_____|_|   |_____|_| \_\
 
-    # return handle_response({'id':id,"filename":id+'.public.pem','keys':pkey_files},{},"Key file not there!!!")
+def load_public_keys(path):
+    """ This reads a directory (path) for .pem files
+        and returns a list with file names in it. Not really
+        used (just as an example glob).
+    """
+ 
+    key_files = glob.glob(f"{path}/*.pem")
+
+    return key_files
+
+def formatHelp(route):
+    """ formatHelp
+        Description: 
+            Grabs the __doc__ string for the given route (function)
+            if it exists and returns it or it returns "no help provided"
+        Params:
+            route <string> : the function name within this file.
+                e.g. formatHelp(frequency) # notice no quotes 
+    """
+    help = globals().get(str(route)).__doc__
+    if help != None:
+        help = help.split("\n")
+        clean_help = []
+        for i in range(len(help)):
+            help[i] = help[i].rstrip()
+            if len(help[i]) > 0:
+                clean_help.append(help[i])
+    else:
+        clean_help = "No Help Provided."
+    return clean_help
 
 def handle_response(data,params=None,error=None):
     """ handle_response
