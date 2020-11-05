@@ -111,6 +111,18 @@ def public_key(id):
         
         return handle_response({"public_key":key},{"id":id})
     
+@app.route('/message', methods = ['GET', 'POST', 'DELETE'])
+def message_handler():
+    """ public_key
+        Description: receives messages
+    """
+    print(request.method)
+    print(request.json)
+
+    with open("messages.txt","w") as f:
+        f.write(json.dumps(request.json))
+
+    return request.json
 
 #   __  __ ___ ____   ____    _____ _   _ _   _  ____ _____ ___ ___  _   _ ____  
 #  |  \/  |_ _/ ___| / ___|  |  ___| | | | \ | |/ ___|_   _|_ _/ _ \| \ | / ___| 
