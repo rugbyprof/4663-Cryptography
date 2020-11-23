@@ -94,22 +94,41 @@ def frequency():
     return handle_response(result,request.args)
 
 
-@app.route('/public_key/<string:id>')
+@app.route('/public_key/<string:id>', methods = ['GET', 'POST'])
 def public_key(id):
     """ public_key
         Description: gets you the public key
     """
 
-    # os.path.join joins string segments to make a directory path
-    key_path = os.path.join('keys',id+'.public.pem')
+    print(request.method)
 
-    # os.path.isfile returns true if file exists
-    if os.path.isfile(key_path): 
-        # open and read key
-        with open(os.path.join('keys',id+'.public.pem')) as f:
-            key = f.read() 
+    if request.method == 'GET':
+        # os.path.join joins string segments to make a directory path
+        key_path = os.path.join('keys',id+'.public.pem')
+
+        # os.path.isfile returns true if file exists
+        if os.path.isfile(key_path): 
+            # open and read key
+            with open(os.path.join('keys',id+'.public.pem')) as f:
+                key = f.read() 
+            
+            return handle_response({"public_key":key},{"id":id})
+    else:
+        # id = requests.get('id',None)
+        print(id)
+
+        print(request.data)
+
+        key_path = os.path.join('keys',id+'.public.pem')
+        with open(key_path,"w") as f:
+            f.write(str(request.data))
+
+        if os.path.isfile(key_path):
+            return {"success":True}
+        else:
+            return {"success":False}
+    
         
-        return handle_response({"public_key":key},{"id":id})
     
 
 #   __  __ ___ ____   ____    _____ _   _ _   _  ____ _____ ___ ___  _   _ ____  

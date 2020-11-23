@@ -16,8 +16,8 @@ class Crypto:
         self.private_key = None
         self.public_key = None
         self.file_prefix = 'key'
-        self.private_key_file = "key.arshia.private.pem"
-        self.public_key_file = "key.arshia.public.pem"
+        self.private_key_file = "key.private.pem"
+        self.public_key_file = "key.public.pem"
 
     def generate_keys(self,exp=65537,ksize=2048):
         """
@@ -31,6 +31,7 @@ class Crypto:
             # backend=default_backend()
         )
         self.public_key = self.private_key.public_key()
+        return {"private_key":self.private_key,"public_key":self.public_key}
 
     def store_keys(self):
         # Storing  Private Keys

@@ -16,7 +16,7 @@ def generate_keys():
 def message():
     m = input("Message:")
     p = requests.post('http://localhost:8080/message',json={"message":m})
-
+    
 
 def end_program():
     print("Great ... quitter.")
@@ -24,6 +24,7 @@ def end_program():
 
 choice_functions = {
     "Generate Keys":generate_keys,
+    #"See Online":get_logged_in
     "Message":message,
     "Quit":end_program
 }

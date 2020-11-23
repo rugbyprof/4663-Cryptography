@@ -124,6 +124,14 @@ def message_handler():
 
     return request.json
 
+@app.route('/servername', methods = ['GET', 'POST', 'DELETE'])
+def servername():
+    """ public_key
+        Description: receives messages
+    """
+
+    return handle_response({"name":"server_01"})
+
 #   __  __ ___ ____   ____    _____ _   _ _   _  ____ _____ ___ ___  _   _ ____  
 #  |  \/  |_ _/ ___| / ___|  |  ___| | | | \ | |/ ___|_   _|_ _/ _ \| \ | / ___| 
 #  | |\/| || |\___ \| |      | |_  | | | |  \| | |     | |  | | | | |  \| \___ \ 
@@ -191,5 +199,11 @@ def handle_response(data,params=None,error=None):
     return jsonify(result)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080,debug=True)
+
+    if len(sys.argv) < 2:
+        print("Error: need a port number")
+        sys.exit()
+
+
+    app.run(host='0.0.0.0', port=int(sys.argv[1]),debug=True)
       
