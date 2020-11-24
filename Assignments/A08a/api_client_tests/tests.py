@@ -27,6 +27,10 @@ for row in temp:
 
 BASEURL = "http://msubackend.xyz/api/"
 
+TOKEN = '892db29a750c4bd0e87184c04db19237ece'
+
+UID = '8020'
+
 def random_user():
     shuffle(uids_tokens)
     return uids_tokens[0]
@@ -162,6 +166,14 @@ if __name__== '__main__':
     # r = getUser(token=user['token'],uid=user['uid'])
     # print(r)
 
-    user = random_user()
-    r = getActive(token=user['token'],uid=user['uid'],limit=900)
+    # user = random_user()
+    # r = getActive(token=user['token'],uid=user['uid'],limit=900)
+    # print(r)
+
+    # r = editUser(UID,'Cal','Norton Jr.','silly name','itookrickybobbyswife@gotcha.com',TOKEN)
+    # print(r)
+
+# {"uid":"5178600","token":"e23a96ca37903c94a39b2a3792159e51"}
+
+    r = sendMessage("5178600",UID,"Crepes are better than waffles.","e23a96ca37903c94a39b2a3792159e51")
     print(r)
