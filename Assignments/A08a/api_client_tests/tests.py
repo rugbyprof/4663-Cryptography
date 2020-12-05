@@ -7,8 +7,17 @@ from crypto_class import Crypto
 import sys
 import json
 from random import shuffle
+# Import the necessary packages
+# https://pypi.org/project/console-menu/
+from consolemenu import *
+from consolemenu.items import *
 
-
+def is_json(myjson):
+  try:
+    json_object = json.loads(myjson)
+  except ValueError as e:
+    return False
+  return True
 
 # get user ids 
 with open('uids_tokens.json') as f:
@@ -25,37 +34,60 @@ with open('enterpreneur-quotes.json') as f:
 for row in temp:
     quotes.append(row['text'])
 
-BASEURL = "http://msubackend.xyz/api/"
 
 TOKEN = '892db29a750c4bd0e87184c04db19237ece'
-
 UID = '8020'
+BASEURL = f"http://msubackend.xyz/api/?token={TOKEN}&uid={UID}&route="
 
 def random_user():
     shuffle(uids_tokens)
     return uids_tokens[0]
+
+def runGetRequest(url,dbug=None):
+    """
+    """
+    if dbug:
+        print(dbug)
+        print(url)
+        
+    r = requests.get(url)
+
+    if dbug:
+        print(r)
+
+    try:
+        response = r.json()
+    except ValueError as e:
+        print("Invalid Json!!!")
+        print(r.text)
+    
+    if dbug:
+        print(type(response))
+
+    if not response['success']:
+        print("Request Failed!!")
+    
+    return response['data']
 
 def random_quote():
     shuffle(quotes)
     return quotes[0]
 
 def editUser(uid,fname,lname,screen_name,email,token):
-    posturl = BASEURL+"?route=postUser"
+    posturl = BASEURL+"postUser"
     payload = {
-        'uid':uid,
         'fname':fname,
         'lname':lname,
         'screen_name':screen_name,
         'email':email,
-        'token':token
     }
     headers = {'Content-Type': 'application/json'}
     r = requests.post(posturl, headers=headers, json=payload)
-    return r.text
+    return r.json()
 
 
 def publishKey(uid,token,pubkey):
-    posturl = BASEURL+"?route=postPubKey"
+    posturl = BASEURL+"postPubKey"
     payload = {
         'pub_key':pubkey,
         'uid':uid,
@@ -63,11 +95,10 @@ def publishKey(uid,token,pubkey):
     }
     headers = {'Content-Type': 'application/json'}
     r = requests.post( posturl, headers=headers, json=payload)
-    return r.text
-
+    return r.json()
 
 def sendMessage(uid,to_uid,message,token):
-    posturl = BASEURL+"?route=postMessage"
+    posturl = BASEURL+"postMessage"
     payload = {
        'uid':uid,
        'to_uid':to_uid,
@@ -77,64 +108,104 @@ def sendMessage(uid,to_uid,message,token):
 
     headers = {'Content-Type': 'application/json'}
     r = requests.post(posturl, headers=headers, json=payload)
-    return r.text
+    return r.json()
 
 def getUser(**kwargs):
-    getUrl = BASEURL+"?route=getUser"
+    getUrl = BASEURL+"getUser"
 
     params = {}
-    params['token'] = kwargs.get('token',0)
-    params['uid'] = kwargs.get('uid',0)
     params['email'] = kwargs.get('email',0)
     params['fname']  = kwargs.get('fname',0)
     params['lname']  = kwargs.get('lname',0)
-
-    if params['token'] == 0 or params['uid'] == 0:
-        print("Error: need tokan and uid")
-        sys.exit()
+    params['user_id']  = kwargs.get('user_id',0)
     
     for k,v in params.items():
-        getUrl += f"&{k}={v}"
+        if str(v) != str(0):
+            getUrl += f"&{k}={v}"
 
-    r = requests.get(getUrl)
-    return r.text
+    return runGetRequest(getUrl)
 
-def getActive(**kwargs):
-    getUrl = BASEURL+"?route=getActive"
+def getActive(limit=None):
+    #update `active` set last_connect = now() where uid in ('100','102','103')
+    active_users = []
+    getUrl = BASEURL+"getActive"
 
-    params = {}
-    params['token'] = kwargs.get('token',0)
-    params['uid'] = kwargs.get('uid',0)
-    params['limit']= kwargs.get('limit',0)
-
-    if params['token'] == 0 or params['uid'] == 0:
-        print("Error: need tokan and uid")
-        sys.exit()
+    if limit:
+        getUrl += f"&limit={limit}"
     
-    for k,v in params.items():
-        getUrl += f"&{k}={v}"
+    return runGetRequest(getUrl)
 
-    r = requests.get(getUrl)
-    return r.text
+def getPublicKey(user_id=None):
+    getUrl = BASEURL+"getPubKey"
 
-def getKeys(**kwargs):
-    getUrl = BASEURL+"?route=getUser"
+    if user_id:
+        getUrl += f"&user_id={user_id}"
+   
+    pubkey = runGetRequest(getUrl)
+    return pubkey[0]['pubkey']
 
-    params = {}
-    params['token'] = kwargs.get('token',0)
-    params['uid'] = kwargs.get('uid',0)
+def grabActiveData():
+    data = []
+    active_users = getActive()
 
-    if params['token'] == 0 or params['uid'] == 0:
-        print("Error: need tokan and uid")
-        sys.exit()
+    for auser in active_users:
+        user_info = getUser(user_id=auser['uid'])
+        user_info = user_info[0]
+
+        user_info['pubkey'] = getPublicKey(auser['uid'])
+        data.append(user_info)
     
-    for k,v in params.items():
-        getUrl += f"&{k}={v}"
+    return data
+
+def getKeys():
+    getUrl = BASEURL+"getKeys"
 
     r = requests.get(getUrl)
-    return r.text
+    return r.json()
+
+def printMenu():
+
+    active_data = grabActiveData()
+
+    names = []
+    for active in active_data:
+        names.append(active['fname'])
+
+    # Create the menu
+    menu = ConsoleMenu("Console Messenger Project", "Encrypted Communication")
+
+    # Create some items
+
+    # MenuItem is the base class for all items, it doesn't do anything when selected
+    menu_item = MenuItem("Menu Item")
+
+    # A FunctionItem runs a Python function when selected
+    function_item = FunctionItem("Active Users", getActive)
+
+    # A CommandItem runs a console command
+    command_item = CommandItem("Run a console command",  "touch hello.txt")
+
+    # A SelectionMenu constructs a menu from a list of strings
+    selection_menu = SelectionMenu(names)
+
+    # A SubmenuItem lets you add a menu (the selection_menu above, for example)
+    # as a submenu of another menu
+    submenu_item = SubmenuItem("Active Users", selection_menu, menu)
+
+    # Once we're done creating them, we just add the items to the menu
+    menu.append_item(menu_item)
+    menu.append_item(function_item)
+    menu.append_item(command_item)
+    menu.append_item(submenu_item)
+
+    # Finally, we call show to show the menu and allow the user to interact
+    menu.show()
 
 if __name__== '__main__':
+    printMenu()
+    #active = grabActiveData()
+
+
 
     # for user in uids_tokens:
     #     C = Crypto()
@@ -175,5 +246,5 @@ if __name__== '__main__':
 
 # {"uid":"5178600","token":"e23a96ca37903c94a39b2a3792159e51"}
 
-    r = sendMessage("5178600",UID,"Crepes are better than waffles.","e23a96ca37903c94a39b2a3792159e51")
-    print(r)
+    # r = sendMessage("5178600",UID,"Crepes are better than waffles.","e23a96ca37903c94a39b2a3792159e51")
+    # print(r)
