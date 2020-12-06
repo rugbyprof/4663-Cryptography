@@ -103,13 +103,13 @@ def postMessage(message,to_uid):
 
 
 """
-Basic Start Of Workflow: 
+A: Basic Start Of Workflow: 
 
     - Generate your own public and private key
     - Post your public key at beginning of session
     - Download everyones public keys so you can encrypt messages.
 
-Encrypting a message: 
+B: Encrypting a message: 
     - load target users public key and encode it using .encode('utf-8') (turns it into bytes)
     - encrypt the message to them with a string (also encoded utf8)
     - Important! See code snippets below.
@@ -117,10 +117,18 @@ Encrypting a message:
         - then using your base64 encoded string, decode it AGAIN using .decode('utf8')
     - now you send your message using api
 
-Decrypting messages:
+C: Decrypting messages:
     - get the message using the api.
     - decode the message using base64 decode
     - decrypt message 
+
+
+System As a Whole:
+    - Do step A
+    - Look at active users
+    - Send one of them a message using step B
+    - Continuously check for messages from other users
+    - Find one, get it and decrypt it.
 
 """
 
