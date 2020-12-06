@@ -3,6 +3,7 @@ https://requests.readthedocs.io/en/master/user/quickstart/
 """
 import requests
 import json
+import base64
 
 #pip install cryptography
 import cryptography
@@ -145,8 +146,25 @@ if __name__ == '__main__':
 
     # print decrypted message
     print(original_message)
+    encoded = base64.b64encode(encrypted)
+    result = postMessage(encoded.decode('utf8'),'8020')
 
 
+    # now get the message and decode it
+    route = 'getMessage'
+    url = f"{API}{route}&token={TOKEN}&uid={UID}&latest=true"
+    r = requests.get(url)
+    data = r.json()
+    message = data["data"][0]
+
+    #print messages (still encrypted)
+    print(message)
+
+    # turn it back into its original bytes form
+    decoded = base64.b64decode(message['message'])
+    print(decoded)
+
+    #should be decryptable now with right private key.
 
     #5147600
 
