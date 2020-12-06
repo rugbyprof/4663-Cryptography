@@ -102,14 +102,34 @@ def postMessage(message,to_uid):
     return r.json()
 
 
+"""
+Basic Start Of Workflow: 
+
+    - Generate your own public and private key
+    - Post your public key at beginning of session
+    - Download everyones public keys so you can encrypt messages.
+
+Encrypting a message: 
+    - load target users public key and encode it using .encode('utf-8') (turns it into bytes)
+    - encrypt the message to them with a string (also encoded utf8)
+    - Important! See code snippets below.
+        - base64 encode the encrypted message (base64 uses characters that we can put into json or strings)
+        - then using your base64 encoded string, decode it AGAIN using .decode('utf8')
+    - now you send your message using api
+
+Decrypting messages:
+    - get the message using the api.
+    - decode the message using base64 decode
+    - decrypt message 
+
+"""
+
 if __name__ == '__main__':
     pubKey()
     getUsers()
 
     active = getActive()
 
-    # for a in active:
-    #     print(a)
 
     #result = postMessage("This is a plaintext message encrypted with public key 5147600",'5147600')
 
