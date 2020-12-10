@@ -132,11 +132,26 @@ System As a Whole:
 
 """
 
+def publishKey(pubkey):
+    route = 'postPubKey'
+    url = f"{API}{route}&token={TOKEN}&uid={UID}"
+
+    payload = {
+        'pub_key':pubkey,
+        'uid':UID,
+        'token':TOKEN
+    }
+    headers = {'Content-Type': 'application/json'}
+    r = requests.post( url, headers=headers, json=payload)
+    return r.json()
+
 if __name__ == '__main__':
     pubKey()
     getUsers()
 
     active = getActive()
+
+    print(active)
 
 
     #result = postMessage("This is a plaintext message encrypted with public key 5147600",'5147600')
@@ -191,6 +206,24 @@ if __name__ == '__main__':
     # turn it back into its original bytes form
     decoded = base64.b64decode(message['message'])
     print(decoded)
+
+    private_key = None
+    public_key = None
+    
+    private_key = rsa.generate_private_key(
+        public_exponent=65537,
+        key_size=2048
+        # backend=default_backend()
+    )
+    public_key = private_key.public_key()
+
+    pem = public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo
+    )
+    
+    r = publishKey(pem.decode('utf8'))
+    print(r)
 
     #should be decryptable now with right private key.
 
