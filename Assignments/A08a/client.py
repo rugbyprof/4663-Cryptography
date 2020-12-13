@@ -1,140 +1,91 @@
+#!/usr/bin/env python3
 """
-https://requests.readthedocs.io/en/master/user/quickstart/
-
-"""
-import requests
-from crypto_class import Crypto 
-import sys
 
 """
- Its up to you to alter the Crypto class to store keys correctly 
- as well as use them to encrypt messages with the proper public key. 
-"""
-C = Crypto()
+import time
+from simple_term_menu import TerminalMenu
+from client_helper import ClientHelper
 
-"""
- These two statemets generate keys and save them, but with hard
- coded values. Definitely needs changed up. 
-"""
-C.generate_keys()
-C.store_keys()
+config = {
+    'token' : '892db29a750c4bd0e87184c04db19237ece',
+    'uid' : '8020',
+    'api' : 'http://msubackend.xyz/api/?route='
+}
 
-BASEURL = "http://msubackend.xyz/api/"
+ch = ClientHelper(**config)
 
-def editUser(uid,fname,lname,screen_name,email,token):
-    posturl = BASEURL+"?route=postUser"
-    payload = {
-        'uid':uid,
-        'fname':fname,
-        'lname':lname,
-        'screen_name':screen_name,
-        'email':email,
-        'token':token
-    }
-    headers = {'Content-Type': 'application/json'}
-    r = requests.post(posturl, headers=headers, json=payload)
-    return r.text
-
-
-def publishKey(uid,token,pubkey):
-    posturl = BASEURL+"?route=postPubKey"
-    payload = {
-        'pub_key':pubkey,
-        'uid':uid,
-        'token':token
-    }
-    headers = {'Content-Type': 'application/json'}
-    r = requests.post( posturl, headers=headers, json=payload)
-    return r.text
-
-
-def sendMessage(from_id,to_id,message,token):
-    posturl = BASEURL+"?route=postMessage"
-    payload = {
-       'from_id':from_id,
-       'to_id':to_id,
-       'message':message,
-       'token':token
-    }
-
-    headers = {'Content-Type': 'application/json'}
-    r = requests.post(posturl, headers=headers, json=payload)
-    return r.text
-
-def getUser(**kwargs):
-    getUrl = BASEURL+"?route=getUser"
-
-    params = {}
-    params['token'] = kwargs.get('token',0)
-    params['uid'] = kwargs.get('uid',0)
-    params['email'] = kwargs.get('email',0)
-    params['fname']  = kwargs.get('fname',0)
-    params['lname']  = kwargs.get('lname',0)
-
-    if params['token'] == 0 or params['uid'] == 0:
-        print("Error: need tokan and uid")
-        sys.exit()
+def generateKeyPair():
+    ch.generate_keys()
+    result = ch.publishKey()
     
-    for k,v in params.items():
-        getUrl += f"&{k}={v}"
+    if result['success']:
+        print("Key Generated !!!")
 
-    r = requests.get(getUrl)
-    return r.text
 
-def getActive(**kwargs):
-    getUrl = BASEURL+"?route=getUser"
+if __name__ == "__main__":
 
-    params = {}
-    params['token'] = kwargs.get('token',0)
-    params['uid'] = kwargs.get('uid',0)
+    token = config['token']
+    api = config['api']
+    uid = config['uid']
+   
+    main_menu_title = "  Main Menu\n"
+    main_menu_items = ["Generate Key Pair", "List Active Users", "Check Messages", "Send Message", "Quit"]
+    main_menu_cursor = "> "
+    main_menu_cursor_style = ("fg_blue", "bold")
+    main_menu_style = ("bg_blue", "fg_green")
+    main_menu_exit = False
 
-    if params['token'] == 0 or params['uid'] == 0:
-        print("Error: need tokan and uid")
-        sys.exit()
-    
-    for k,v in params.items():
-        getUrl += f"&{k}={v}"
+    main_menu = TerminalMenu(menu_entries=main_menu_items,
+                             title=main_menu_title,
+                             menu_cursor=main_menu_cursor,
+                             menu_cursor_style=main_menu_cursor_style,
+                             menu_highlight_style=main_menu_style,
+                             cycle_cursor=True,
+                             clear_screen=True)
 
-    r = requests.get(getUrl)
-    return r.text
+    # edit_menu_title = "  Edit Menu\n"
+    # edit_menu_items = ["Edit Config", "Save Settings", "Back to Main Menu"]
+    # edit_menu_back = False
+    # edit_menu = TerminalMenu(edit_menu_items,
+    #                          edit_menu_title,
+    #                          main_menu_cursor,
+    #                          main_menu_cursor_style,
+    #                          main_menu_style,
+    #                          cycle_cursor=True,
+    #                          clear_screen=True)
 
-def getKeys(**kwargs):
-    getUrl = BASEURL+"?route=getUser"
+    while not main_menu_exit:
+        main_sel = main_menu.show()
 
-    params = {}
-    params['token'] = kwargs.get('token',0)
-    params['uid'] = kwargs.get('uid',0)
+        # if main_sel == 0:
+        #     while not edit_menu_back:
+        #         edit_sel = edit_menu.show()
+        #         if edit_sel == 0:
+        #             print("Edit Config Selected")
+        #             time.sleep(5)
+        #         elif edit_sel == 1:
+        #             print("Save Selected")
+        #             time.sleep(5)
+        #         elif edit_sel == 2:
+        #             edit_menu_back = True
+        #             print("Back Selected")
+        #     edit_menu_back = False
+        
+        if main_sel == 0:
+            print("Generating Key Pair")
+            generateKeyPair()
+            time.sleep(1)
+        elif main_sel == 1:
+            print("Listing Active Users")
+            active = ch.getActive()
+            print(active)
+            time.sleep(1)
+        elif main_sel == 2:
+            print("Checking Messages")
+        elif main_sel == 3:
+            print("Sending Message")
+        elif main_sel == 4:
+            main_menu_exit = True
+            print("Quit Selected")
 
-    if params['token'] == 0 or params['uid'] == 0:
-        print("Error: need tokan and uid")
-        sys.exit()
-    
-    for k,v in params.items():
-        getUrl += f"&{k}={v}"
 
-    r = requests.get(getUrl)
-    return r.text
-
-if __name__== '__main__':
-    token = '52e59d8486f6a67e1ec6c281e665e'
-    uid = '3818'
-
-    # r = sendMessage('3818','8020','Hey Ricky Bobby. You wanna shake n bake?',token)
-    # print(r)
-
-    key = """-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvI3QjAT3naoP8ZGFwKmc
-9b01//L0uUVKOZH33333333333333333333333333333333V5mxJzGvqYekqg0SL
-VGHkpH33333333333333333333333333333333uBgkJo35hwK8HfIiYtwQxCdDWi
-INA7XYoy5/D11GauZN0a3/7mZU4uDY6iw3Js7wNlm6job93JVGTq4Fc9QGEZz6Pk
-TwIDAQAB
------END PUBLIC KEY-----"""
-
-    r = publishKey(uid,token,key)
-    print(r)
-
-    r = getUser(token=token,uid=uid)
-    print(r)
-
-    r = getActive(token=token,uid=uid)
-    print(r)
